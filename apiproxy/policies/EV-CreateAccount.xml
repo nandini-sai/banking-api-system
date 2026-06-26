@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables name="EV-CreateAccount">
+    <Source>request</Source>
+    <VariablePrefix>apigee</VariablePrefix>
+    <XMLPayload>
+        <Variable name="custId">
+            <XPath>/Banking/CustId</XPath>
+        </Variable>
+        <Variable name="accNum">
+            <XPath>/Banking/AccountNumber</XPath>
+        </Variable>
+        <Variable name="firstname">
+            <XPath>/Banking/FirstName</XPath>
+        </Variable>
+        <Variable name="lastname">
+            <XPath>/Banking/LastName</XPath>
+        </Variable>
+        <Variable name="balance">
+            <XPath>/Banking/Bal</XPath>
+        </Variable>
+    </XMLPayload>
+</ExtractVariables>

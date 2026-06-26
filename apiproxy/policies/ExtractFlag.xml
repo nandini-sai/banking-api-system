@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables name="ExtractFlag">
+    <Source>request</Source>
+    <VariablePrefix>apigee</VariablePrefix>
+    <XMLPayload>
+        <Variable name="accFlag">
+            <XPath>/Banking/AccountFlag</XPath>
+        </Variable>
+        <Variable name="amount">
+            <XPath>/Banking/amount</XPath>
+        </Variable>
+    </XMLPayload>
+</ExtractVariables>

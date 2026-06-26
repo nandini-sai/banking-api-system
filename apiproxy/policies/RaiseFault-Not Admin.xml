@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault name="RaiseFault-Not Admin">
+    <Condition>request.header.role != "admin"</Condition>
+    <FaultResponse>
+        <Set>
+            <Payload contentType="application/json">
+            {
+              "error":"Access Denied. Admin Only."
+            }
+            </Payload>
+        </Set>
+    </FaultResponse>
+    <DisplayName>RaiseFault-Not Admin</DisplayName>
+</RaiseFault>

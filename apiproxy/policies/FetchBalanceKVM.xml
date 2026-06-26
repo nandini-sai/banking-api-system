@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true" name="FetchBalanceKVM" mapIdentifier="NandiniBankingKVM">
+    <DisplayName>FetchBalanceKVM</DisplayName>
+    <Scope>environment</Scope>
+    <Get assignTo="accountInfo">
+        <Key>
+            <Parameter ref="apigee.accNum"/>
+        </Key>
+    </Get>
+</KeyValueMapOperations>

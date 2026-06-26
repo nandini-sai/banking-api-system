@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true" name="TxnUpdateKVM" mapIdentifier="NandiniBankingKVM">
+    <DisplayName>TxnUpdateKVM</DisplayName>
+    <Scope>environment</Scope>
+    <Put>
+        <Key>
+            <Parameter ref="apigee.accNum"/>
+        </Key>
+        <Value ref="updatedAccount"/>
+    </Put>
+</KeyValueMapOperations>

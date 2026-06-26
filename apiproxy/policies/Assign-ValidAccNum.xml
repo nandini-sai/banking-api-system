@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="Assign-ValidAccNum">
+    <DisplayName>Assign-ValidAccNum</DisplayName>
+    <Set>
+        <Payload contentType="application/json">
+            {
+                "firstname": "{account.firstname}",
+                "lastname": "{account.lastname}",
+                "balance": "{account.balance}"
+            }
+        </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo transport="http" type="request"/>
+</AssignMessage>

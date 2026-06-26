@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PopulateCache async="false" continueOnError="false" enabled="true" name="Populate-Cache-Balance">
+    <DisplayName>Populate Cache-Balance</DisplayName>
+    <CacheKey>
+        <KeyFragment ref="request.queryparam.apigee.accNum"/>
+    </CacheKey>
+    <Scope>Exclusive</Scope>
+    <ExpirySettings>
+        <TimeoutInSec>60</TimeoutInSec>
+    </ExpirySettings>
+    <Source>response</Source>
+</PopulateCache>

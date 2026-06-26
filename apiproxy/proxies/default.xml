@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>RaiseFault-MissingAuth</Name>
+                <Condition>(request.header.apikey=null) and (request.header.Authorization=null)</Condition>
+            </Step>
+            <Step>
+                <Name>Verify-API-Key</Name>
+                <Condition>(proxy.pathsuffix != "/oauth/token")</Condition>
+            </Step>
+            <Step>
+                <Name>Quota-User1</Name>
+            </Step>
+            <Step>
+                <Name>OAuth-VerifyAccessToken</Name>
+                <Condition>(request.header.Authorization startsWith "Bearer"
+           and !(proxy.pathsuffix MatchesPath "/oauth/token"))
+                </Condition>
+            </Step>
+            <Step>
+                <Name>Basic-Auth-Decode</Name>
+                <Condition>(request.header.Authorization startsWith "Basic"
+           and !(proxy.pathsuffix MatchesPath "/oauth/token"))
+                </Condition>
+            </Step>
+            <Step>
+                <Name>ExtractUsername</Name>
+                <Condition>(request.header.Authorization startsWith "Basic"
+           and !(proxy.pathsuffix MatchesPath "/oauth/token"))
+                </Condition>
+            </Step>
+            <Step>
+                <Name>KVM-GetUserPassword</Name>
+                <Condition>(request.header.Authorization startsWith "Basic"
+           and !(proxy.pathsuffix MatchesPath "/oauth/token"))
+                </Condition>
+            </Step>
+            <Step>
+                <Name>RaiseFault-InvalidBasicAuth</Name>
+                <Condition>auth.basic.password!=kvm.password</Condition>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <Flows>
+        <Flow name="AccountNumber">
+            <Description/>
+            <Request>
+                <Step>
+                    <Name>ExtractAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>ValidateAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidAccNum</Name>
+                    <Condition>(accNum.valid = false)</Condition>
+                </Step>
+                <Step>
+                    <Name>KVM-Account-info</Name>
+                </Step>
+                <Step>
+                    <Name>ParseAcc</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>Assign-ValidAccNum</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/accountnumber") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="FetchAccountBalance">
+            <Description/>
+            <Request>
+                <Step>
+                    <Name>ExtractAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>Lookup-Cache-Balance</Name>
+                </Step>
+                <Step>
+                    <Name>ValidateAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidAccNum</Name>
+                    <Condition>(accNum.valid = false)</Condition>
+                </Step>
+                <Step>
+                    <Name>FetchBalanceKVM</Name>
+                </Step>
+                <Step>
+                    <Name>ParseAccBalance</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidBalance</Name>
+                    <Condition>(accBalance.valid = false)</Condition>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>Assign-ValidBalance</Name>
+                </Step>
+                <Step>
+                    <Name>Populate-Cache-Balance</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/balance") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="AccountFlag">
+            <Description/>
+            <Request>
+                <Step>
+                    <Name>ExtractAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>ValidateAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidAccNum</Name>
+                    <Condition>(accNum.valid = false)</Condition>
+                </Step>
+                <Step>
+                    <Name>ExtractFlag</Name>
+                </Step>
+                <Step>
+                    <Name>ValidateFlag</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidFlag</Name>
+                    <Condition>(accFlag.valid = false)</Condition>
+                </Step>
+                <Step>
+                    <Name>FetchBalanceKVM</Name>
+                </Step>
+                <Step>
+                    <Name>ParseAccBalance</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-FlagBalance</Name>
+                    <Condition>(accInvalidBalance.valid=false)</Condition>
+                </Step>
+                <Step>
+                    <Name>TxnUpdate</Name>
+                </Step>
+                <Step>
+                    <Name>TxnUpdateKVM</Name>
+                </Step>
+                <Step>
+                    <Name>Invalidate-Cache-Balance</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>Assign-ValidFlag</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/account/flag") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="AccountDelete">
+            <Description/>
+            <Request>
+                <Step>
+                    <Name>ExtractAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>ValidateAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidAccNum</Name>
+                    <Condition>(accNum.valid = false)</Condition>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-Not Admin</Name>
+                    <Condition>request.header.role != "admin"</Condition>
+                </Step>
+                <Step>
+                    <Name>KVM-Delete</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>Assign-DeleteMessage</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/delete") and (request.verb = "DELETE")</Condition>
+        </Flow>
+        <Flow name="CreateAccount">
+            <Description/>
+            <Request>
+                <Step>
+                    <Name>EV-CreateAccount</Name>
+                </Step>
+                <Step>
+                    <Name>ValidateAccNum</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidAccNum</Name>
+                    <Condition>accNum.valid=false</Condition>
+                </Step>
+                <Step>
+                    <Name>createAcc</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-LowBalance</Name>
+                    <Condition>lowBalance=true</Condition>
+                </Step>
+                <Step>
+                    <Name>KVM-Save-New-Account</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>Assign-AccCreated</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/createAccount") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="OAuthToken">
+            <Request>
+                <Step>
+                    <Name>OAuth-GenerateToken</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/oauth/token") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="BasicOuth">
+            <Description/>
+            <Request>
+                <Step>
+                    <Name>Basic-Auth-Decode</Name>
+                </Step>
+                <Step>
+                    <Name>ExtractUsername</Name>
+                </Step>
+                <Step>
+                    <Name>KVM-GetUserPassword</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-InvalidBasicAuth</Name>
+                </Step>
+                <Step>
+                    <Name>RaiseFault-MissingAuth</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>Assign-BasicAuth</Name>
+                </Step>
+            </Response>
+            <Condition>cond</Condition>
+        </Flow>
+    </Flows>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response/>
+    </PostFlow>
+    <HTTPProxyConnection>
+        <BasePath>/nandinibanking/v</BasePath>
+        <VirtualHost>secure</VirtualHost>
+        <VirtualHost>default</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="default">
+        <!-- <TargetEndpoint>default</TargetEndpoint> -->
+    </RouteRule>
+</ProxyEndpoint>

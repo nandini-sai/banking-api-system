@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true" name="KVM-Delete" mapIdentifier="NandiniBankingKVM">
+    <DisplayName>KVM-Delete</DisplayName>
+    <Scope>environment</Scope>
+    <Delete>
+        <Key>
+            <Parameter ref="apigee.accNum"/>
+        </Key>
+    </Delete>
+</KeyValueMapOperations>

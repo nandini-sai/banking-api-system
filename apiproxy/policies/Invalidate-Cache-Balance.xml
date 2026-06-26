@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InvalidateCache async="false" continueOnError="false" enabled="true" name="Invalidate-Cache-Balance">
+    <DisplayName>Invalidate Cache-Balance</DisplayName>
+    <CacheKey>
+        <KeyFragment ref="request.content.apigee.accNum"/>
+    </CacheKey>
+</InvalidateCache>

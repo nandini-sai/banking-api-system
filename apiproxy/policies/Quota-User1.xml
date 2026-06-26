@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Quota name="Quota-User1">
+    <Interval>1</Interval>
+    <Synchronous>true</Synchronous>
+    <Distributed>true</Distributed>
+    <TimeUnit>minute</TimeUnit>
+    <Allow count="7"/>
+    <Identifier ref="request.queryparam.apikey"/>
+</Quota>

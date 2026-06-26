@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="Assign-ValidFlag">
+    <Set>
+        <Payload contentType="application/json">
+            {
+              "account": "{apigee.accNum}",
+              "flag": "{apigee.accFlag}",
+              "amount": "{apigee.amount}",
+              "previousBalance": "{account.balance}",
+              "newBalance": "{updatedBalance}",
+              "status": "OK"
+            }
+        </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo type="response"/>
+</AssignMessage>
