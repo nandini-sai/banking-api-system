@@ -3,11 +3,11 @@
     <Basepaths>/nandinibanking/v</Basepaths>
     <ConfigurationVersion majorVersion="4" minorVersion="0"/>
     <CreatedAt>1774515891437</CreatedAt>
-    <CreatedBy>sai.nandini@cognizant.com</CreatedBy>
+    <CreatedBy>nandini-sai</CreatedBy>
     <Description></Description>
     <DisplayName>NandiniApigeeUserCase1</DisplayName>
     <LastModifiedAt>1774515891437</LastModifiedAt>
-    <LastModifiedBy>sai.nandini@cognizant.com</LastModifiedBy>
+    <LastModifiedBy>nandini-sai</LastModifiedBy>
     <ManifestVersion>SHA-512:bee1ded3a8c74b4c59d0659b417a27193676060c3c741126ead53c4caf450a1e6c656a7177f576d5fe674f0c07eebbae3881570a77631274b19981688b3bfa39:ap-northeast-1</ManifestVersion>
     <Policies>
         <Policy>Assign-AccCreated</Policy>
